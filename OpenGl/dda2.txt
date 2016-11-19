@@ -1,0 +1,75 @@
+#include<stdio.h>
+#include<GL/glut.h>
+ void init(void) 
+  {
+    glClearColor(1.0,0.0,0.0,0.0);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0.0,200.0,0.0,150.0);
+  }
+void dda(void)
+{
+	int dx,dy,s,x,y,i,x0,y0,xn,yn;
+	float m;
+	glClear(GL_COLOR_BUFFER_BIT);
+      glColor3f(0.0,1.0,0.0);
+	x0=0;
+	y0=0;
+	xn=400;
+	yn=400;
+	dx=xn-x0;
+	dy=yn-y0;
+	m=dy/dx;
+	if(abs(dx)>abs(dy))
+	{
+		s=abs(dx);
+	}
+	else
+	{
+		s=abs(dy);
+	}
+	
+	x=x0;
+	y=y0;
+	glBegin(GL_POINTS);
+         glVertex2i(x,y);
+        glEnd();
+	for(i=0;i<s;i++)
+	{
+		m=(xn-x)/(yn-y);
+		if(m>=1)
+		{
+		
+			 x=x+(1/m);
+			 y=y+1;
+			 glBegin(GL_POINTS);
+			 glVertex2i(x,y);
+			 glEnd();
+			 glFlush();
+		}
+		else 
+		{
+			x=x+1;
+			y=y+m;
+			 glBegin(GL_POINTS);
+			 glVertex2i(x,y);
+			 glEnd();
+			 glFlush();
+		}
+
+	}
+}				
+
+	void main(int argc,char **argv)
+	{
+		glutInit(&argc,argv);
+		glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+		glutInitWindowPosition(500,500);
+		glutInitWindowSize(400,300);
+		glutCreateWindow("an example of OPENGL");
+		init();
+		
+		glutDisplayFunc(dda);
+
+		glutMainLoop();
+		
+	} 
